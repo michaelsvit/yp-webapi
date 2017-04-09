@@ -47,4 +47,56 @@ public class Movie {
         this.ageRating = ageRating;
         this.youtubeTrailerId = youtubeTrailerId;
     }
+
+    public String getSubtitlesLanguage() {
+        return subtitlesLanguage;
+    }
+
+    public boolean is3d() {
+        return is3d;
+    }
+
+    public String getActors() {
+        return actors;
+    }
+
+    public long getReleaseTimestamp() {
+        return releaseTimestamp;
+    }
+
+    public String getReleaseYear() {
+        return releaseYear;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public String getHebrewName() {
+        return hebrewName;
+    }
+
+    public String getEnglishName() {
+        return englishName;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getAgeRating() {
+        return ageRating;
+    }
+
+    public String getYoutubeTrailerId() {
+        return youtubeTrailerId;
+    }
 }
