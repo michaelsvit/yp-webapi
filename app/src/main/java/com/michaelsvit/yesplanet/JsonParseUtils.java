@@ -52,6 +52,11 @@ public abstract class JsonParseUtils {
         }
 
         @Override
+        protected void onPostExecute(Void aVoid) {
+            listener.onDataParseCompletion();
+        }
+
+        @Override
         protected Void doInBackground(String... params) {
             if (params.length == 0) {
                 Log.e(LOG_TAG, "No data to parse");
@@ -103,19 +108,79 @@ public abstract class JsonParseUtils {
                 JSONArray moviesArray = new JSONArray(json);
                 for(int i = 0; i < moviesArray.length(); i++) {
                     JSONObject movie = moviesArray.getJSONObject(i);
-                    String subtitlesLanguage = movie.getString(SUB_LANG_KEY);
+
+                    String subtitlesLanguage;
+                    if (movie.has(SUB_LANG_KEY)) {
+                        subtitlesLanguage = movie.getString(SUB_LANG_KEY);
+                    } else {
+                        subtitlesLanguage = "Hebrew";
+                    }
+
                     boolean is3d = movie.getBoolean(IS_3D_KEY);
-                    String actors = movie.getString(ACTORS_KEY);
+
+                    String actors;
+                    if (movie.has(ACTORS_KEY)) {
+                        actors = movie.getString(ACTORS_KEY);
+                    } else {
+                        actors = "";
+                    }
+
                     long releaseTimestamp = movie.getLong(RELEASE_TIMESTAMP_KEY);
+
                     int length = movie.getInt(LENGTH_KEY);
+
                     String hebrewName = movie.getString(HEBREW_NAME_KEY);
-                    String englishName = movie.getString(ENGLISH_NAME_KEY);
-                    String releaseYear = movie.getString(RELEASE_YEAR_KEY);
-                    String country = movie.getString(COUNTRY_KEY);
-                    String id = movie.getString(ID_KEY);
-                    String director = movie.getString(DIRECTOR_KEY);
-                    String ageRating = movie.getString(AGE_RATING_KEY);
-                    String youtubeTrailerId = extractYoutubeTrailerId(movie.getString(YOUTUBE_TRAILER_ID));
+
+                    String englishName;
+                    if (movie.has(ENGLISH_NAME_KEY)) {
+                        englishName = movie.getString(ENGLISH_NAME_KEY);
+                    } else {
+                        englishName = "";
+                    }
+
+                    String releaseYear;
+                    if (movie.has(RELEASE_YEAR_KEY)) {
+                        releaseYear = movie.getString(RELEASE_YEAR_KEY);
+                    } else {
+                        releaseYear = "";
+                    }
+
+                    String country;
+                    if (movie.has(COUNTRY_KEY)) {
+                        country = movie.getString(COUNTRY_KEY);
+                    } else {
+                        country = "";
+                    }
+
+                    String id;
+                    if (movie.has(ID_KEY)) {
+                        id = movie.getString(ID_KEY);
+                    } else {
+                        Log.e(LOG_TAG, "Movie with name: " + englishName + " has no ID");
+                        continue;
+                    }
+
+                    String director;
+                    if (movie.has(DIRECTOR_KEY)) {
+                        director = movie.getString(DIRECTOR_KEY);
+                    } else {
+                        director = "";
+                    }
+
+                    String ageRating;
+                    if (movie.has(AGE_RATING_KEY)) {
+                        ageRating = movie.getString(AGE_RATING_KEY);
+                    } else {
+                        ageRating = "";
+                    }
+
+                    String youtubeTrailerId;
+                    if (movie.has(YOUTUBE_TRAILER_ID)) {
+                        youtubeTrailerId = extractYoutubeTrailerId(movie.getString(YOUTUBE_TRAILER_ID));
+                    } else {
+                        youtubeTrailerId = "";
+                    }
+
                     movies.add(new Movie(
                             subtitlesLanguage,
                             is3d,

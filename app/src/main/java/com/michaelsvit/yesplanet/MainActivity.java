@@ -21,7 +21,8 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+                    JsonParseUtils.OnDataParseCompletionListener {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity
                     throw new IOException();
                 }
 
-                cinema.parseData(response.body().string());
+                JsonParseUtils.parseData(response.body().string(), cinema, MainActivity.this);
             }
         });
 
@@ -130,5 +131,10 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onDataParseCompletion() {
+        Log.d(LOG_TAG, "Data parsing completed");
     }
 }
