@@ -1,6 +1,6 @@
 package com.michaelsvit.yesplanet;
 
-import android.util.Log;
+import java.util.List;
 
 /**
  * Created by Michael on 4/9/2017.
@@ -9,14 +9,18 @@ import android.util.Log;
  */
 
 public class Cinema {
-    private final String dataUrl = "http://yesplanet.internet-bee.mobi/" +
-            "TREST_YP3/resources/info/merge/0/CATS,FEAT,TIX,PRSNT";
+
+    private final static String LOG_TAG = Cinema.class.getSimpleName();
+
+    private List<Movie> movies;
 
     public String getDataUrl() {
+        String dataUrl = "http://yesplanet.internet-bee.mobi/" +
+                "TREST_YP3/resources/info/merge/0/CATS,FEAT,TIX,PRSNT";
         return dataUrl;
     }
 
-    public void parseData(String dataString) {
-        Log.v("Cinema parseData", dataString);
+    public void updateMovies(List<Movie> movies) {
+        this.movies = movies;
     }
 }

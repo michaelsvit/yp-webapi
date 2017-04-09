@@ -8,7 +8,7 @@ package com.michaelsvit.yesplanet;
 public class Movie {
     private String subtitlesLanguage;  // "Hebrew"
     private boolean is3d;              // false
-    private String actorsList;         // "Actor1, Actor2" - can be empty
+    private String actors;         // "Actor1, Actor2" - can be empty
     private long releaseTimestamp;     // 1487196000
     private String releaseYear;        // "2017"
     private int length;                // 122
@@ -22,7 +22,7 @@ public class Movie {
 
     public Movie(
             String subtitlesLanguage,
-            boolean is3d, String actorsList,
+            boolean is3d, String actors,
             long releaseTimestamp,
             String releaseYear,
             int length,
@@ -35,7 +35,7 @@ public class Movie {
             String youtubeTrailerId) {
         this.subtitlesLanguage = subtitlesLanguage;
         this.is3d = is3d;
-        this.actorsList = actorsList;
+        this.actors = actors;
         this.releaseTimestamp = releaseTimestamp;
         this.releaseYear = releaseYear;
         this.length = length;
