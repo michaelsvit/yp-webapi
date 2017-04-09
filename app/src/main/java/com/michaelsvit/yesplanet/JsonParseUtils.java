@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * Created by Michael on 4/9/2017.
- *
+ * <p>
  * Utilities to parse JSON received from Yes Planet server.
  */
 
@@ -22,15 +22,16 @@ public abstract class JsonParseUtils {
     /**
      * Objects calling parseData(...) must implement this interface to know when parsing is finished.
      */
-    public interface OnDataParseCompletionListener{
+    public interface OnDataParseCompletionListener {
         void onDataParseCompletion();
     }
 
     /**
      * Asynchronously parse data received from Yes Planet server.
-     * @param data      data string from response
-     * @param cinema    cinema object to be populated with the parsed data
-     * @param listener  object to be informed when data parsing is completed
+     *
+     * @param data     data string from response
+     * @param cinema   cinema object to be populated with the parsed data
+     * @param listener object to be informed when data parsing is completed
      */
     public static void parseData(String data, Cinema cinema, OnDataParseCompletionListener listener) {
         (new ParseDataAsync(cinema, listener)).execute(data);
@@ -71,8 +72,9 @@ public abstract class JsonParseUtils {
 
         /**
          * Extract valid JSON string containing movies data from Yes Planet data server response.
-         * @param dataString  data server response
-         * @return            valid JSON string
+         *
+         * @param dataString data server response
+         * @return valid JSON string
          */
         public static String extractMoviesJson(String dataString) {
             final String beginString = "\"Feats\":";
@@ -85,7 +87,8 @@ public abstract class JsonParseUtils {
         /**
          * Parses JSON string received from querying server's movie database.
          * Assumes valid JSON.
-         * @param json  JSON string to be parsed
+         *
+         * @param json JSON string to be parsed
          */
         public static List<Movie> parseMoviesJson(String json) {
             List<Movie> movies = new ArrayList<>();
@@ -106,51 +109,26 @@ public abstract class JsonParseUtils {
 
             try {
                 JSONArray moviesArray = new JSONArray(json);
-                for(int i = 0; i < moviesArray.length(); i++) {
+                for (int i = 0; i < moviesArray.length(); i++) {
                     JSONObject movie = moviesArray.getJSONObject(i);
 
-                    String subtitlesLanguage;
-                    if (movie.has(SUB_LANG_KEY)) {
-                        subtitlesLanguage = movie.getString(SUB_LANG_KEY);
-                    } else {
-                        subtitlesLanguage = "Hebrew";
-                    }
+                    String subtitlesLanguage = getSubtitlesLanguage(SUB_LANG_KEY, movie);
 
-                    boolean is3d = movie.getBoolean(IS_3D_KEY);
+                    boolean is3d = movie.has(IS_3D_KEY) && movie.getBoolean(IS_3D_KEY);
 
-                    String actors;
-                    if (movie.has(ACTORS_KEY)) {
-                        actors = movie.getString(ACTORS_KEY);
-                    } else {
-                        actors = "";
-                    }
+                    String actors = safeGetString(ACTORS_KEY, movie);
 
-                    long releaseTimestamp = movie.getLong(RELEASE_TIMESTAMP_KEY);
+                    long releaseTimestamp = safeGetReleaseTimestamp(RELEASE_TIMESTAMP_KEY, movie);
 
-                    int length = movie.getInt(LENGTH_KEY);
+                    int length = safeGetLength(LENGTH_KEY, movie);
 
-                    String hebrewName = movie.getString(HEBREW_NAME_KEY);
+                    String hebrewName = safeGetString(HEBREW_NAME_KEY, movie);
 
-                    String englishName;
-                    if (movie.has(ENGLISH_NAME_KEY)) {
-                        englishName = movie.getString(ENGLISH_NAME_KEY);
-                    } else {
-                        englishName = "";
-                    }
+                    String englishName = safeGetString(ENGLISH_NAME_KEY, movie);
 
-                    String releaseYear;
-                    if (movie.has(RELEASE_YEAR_KEY)) {
-                        releaseYear = movie.getString(RELEASE_YEAR_KEY);
-                    } else {
-                        releaseYear = "";
-                    }
+                    String releaseYear = safeGetString(RELEASE_YEAR_KEY, movie);
 
-                    String country;
-                    if (movie.has(COUNTRY_KEY)) {
-                        country = movie.getString(COUNTRY_KEY);
-                    } else {
-                        country = "";
-                    }
+                    String country = safeGetString(COUNTRY_KEY, movie);
 
                     String id;
                     if (movie.has(ID_KEY)) {
@@ -160,26 +138,11 @@ public abstract class JsonParseUtils {
                         continue;
                     }
 
-                    String director;
-                    if (movie.has(DIRECTOR_KEY)) {
-                        director = movie.getString(DIRECTOR_KEY);
-                    } else {
-                        director = "";
-                    }
+                    String director = safeGetString(DIRECTOR_KEY, movie);
 
-                    String ageRating;
-                    if (movie.has(AGE_RATING_KEY)) {
-                        ageRating = movie.getString(AGE_RATING_KEY);
-                    } else {
-                        ageRating = "";
-                    }
+                    String ageRating = safeGetString(AGE_RATING_KEY, movie);
 
-                    String youtubeTrailerId;
-                    if (movie.has(YOUTUBE_TRAILER_ID)) {
-                        youtubeTrailerId = extractYoutubeTrailerId(movie.getString(YOUTUBE_TRAILER_ID));
-                    } else {
-                        youtubeTrailerId = "";
-                    }
+                    String youtubeTrailerId = safeGetYoutubeTrailerId(YOUTUBE_TRAILER_ID, movie);
 
                     movies.add(new Movie(
                             subtitlesLanguage,
@@ -202,6 +165,56 @@ public abstract class JsonParseUtils {
             }
 
             return movies;
+        }
+
+        private static int safeGetLength(String LENGTH_KEY, JSONObject movie) throws JSONException {
+            int length;
+            if (movie.has(LENGTH_KEY)) {
+                length = movie.getInt(LENGTH_KEY);
+            } else {
+                length = -1;
+            }
+            return length;
+        }
+
+        private static long safeGetReleaseTimestamp(String RELEASE_TIMESTAMP_KEY, JSONObject movie) throws JSONException {
+            long releaseTimestamp;
+            if (movie.has(RELEASE_TIMESTAMP_KEY)) {
+                releaseTimestamp = movie.getLong(RELEASE_TIMESTAMP_KEY);
+            } else {
+                releaseTimestamp = -1;
+            }
+            return releaseTimestamp;
+        }
+
+        private static String safeGetYoutubeTrailerId(String YOUTUBE_TRAILER_ID, JSONObject movie) throws JSONException {
+            String youtubeTrailerId;
+            if (movie.has(YOUTUBE_TRAILER_ID)) {
+                youtubeTrailerId = extractYoutubeTrailerId(movie.getString(YOUTUBE_TRAILER_ID));
+            } else {
+                youtubeTrailerId = "";
+            }
+            return youtubeTrailerId;
+        }
+
+        private static String safeGetString(String ACTORS_KEY, JSONObject movie) throws JSONException {
+            String actors;
+            if (movie.has(ACTORS_KEY)) {
+                actors = movie.getString(ACTORS_KEY);
+            } else {
+                actors = "";
+            }
+            return actors;
+        }
+
+        private static String getSubtitlesLanguage(String SUB_LANG_KEY, JSONObject movie) throws JSONException {
+            String subtitlesLanguage;
+            if (movie.has(SUB_LANG_KEY)) {
+                subtitlesLanguage = movie.getString(SUB_LANG_KEY);
+            } else {
+                subtitlesLanguage = "Hebrew";
+            }
+            return subtitlesLanguage;
         }
 
         public static String extractYoutubeTrailerId(String string) {

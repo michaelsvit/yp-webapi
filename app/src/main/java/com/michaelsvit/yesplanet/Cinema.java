@@ -15,12 +15,15 @@ public class Cinema {
     private List<Movie> movies;
 
     public String getDataUrl() {
-        String dataUrl = "http://yesplanet.internet-bee.mobi/" +
+        return "http://yesplanet.internet-bee.mobi/" +
                 "TREST_YP3/resources/info/merge/0/CATS,FEAT,TIX,PRSNT";
-        return dataUrl;
     }
 
     public void updateMovies(List<Movie> movies) {
         this.movies = movies;
+    }
+
+    public String getMoviePosterUrl(String movieId) {
+        return "http://media3.cinema-city.pl/yp2/Feats/med/" + movieId + ".jpg";
     }
 }
