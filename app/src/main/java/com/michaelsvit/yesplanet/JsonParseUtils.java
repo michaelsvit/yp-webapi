@@ -39,7 +39,7 @@ public abstract class JsonParseUtils {
     /**
      * Async task to parse data received from the server.
      */
-    private static class ParseDataAsync extends AsyncTask<String, Void, Void> {
+    public static class ParseDataAsync extends AsyncTask<String, Void, Void> {
 
         private static final String LOG_TAG = ParseDataAsync.class.getSimpleName();
 
@@ -69,7 +69,7 @@ public abstract class JsonParseUtils {
          * @param dataString  data server response
          * @return            valid JSON string
          */
-        private String extractMoviesJson(String dataString) {
+        public static String extractMoviesJson(String dataString) {
             final String beginString = "\"Feats\":";
             final int beginIndex = dataString.indexOf(beginString) + beginString.length();
             final String endString = ",\"Sites\"";
@@ -82,7 +82,7 @@ public abstract class JsonParseUtils {
          * Assumes valid JSON.
          * @param json  JSON string to be parsed
          */
-        private List<Movie> parseMoviesJson(String json) {
+        public static List<Movie> parseMoviesJson(String json) {
             List<Movie> movies = new ArrayList<>();
 
             final String SUB_LANG_KEY = "sub";
@@ -139,7 +139,7 @@ public abstract class JsonParseUtils {
             return movies;
         }
 
-        private String extractYoutubeTrailerId(String string) {
+        public static String extractYoutubeTrailerId(String string) {
             Uri uri = Uri.parse(string);
             final String videoIdParameter = "v";
             return uri.getQueryParameter(videoIdParameter);
