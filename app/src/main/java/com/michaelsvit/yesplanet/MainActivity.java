@@ -2,19 +2,30 @@ package com.michaelsvit.yesplanet;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private static final String LOG_TAG = MainActivity.class.getSimpleName();
+
+    private Cinema cinema;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +52,26 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        // Fetch data from server
+        // Main Cinema object
+        cinema = new Cinema();
+
+        // Initiate asynchronous data fetching
+        DataFetchUtils.fetchData(cinema.getDataUrl(), new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+                Log.e(LOG_TAG, "Error fetching data from URL: " + call.request().url());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (!response.isSuccessful()) {
+                    throw new IOException();
+                }
+
+                cinema.parseData(response.body().string());
+            }
+        });
 
     }
 

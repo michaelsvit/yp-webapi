@@ -1,5 +1,7 @@
 package com.michaelsvit.yesplanet;
 
+import android.util.Log;
+
 /**
  * Created by Michael on 4/9/2017.
  *
@@ -12,5 +14,9 @@ public class Cinema {
 
     public String getDataUrl() {
         return dataUrl;
+    }
+
+    public void parseData(String dataString) {
+        Log.v("Cinema parseData", dataString);
     }
 }
