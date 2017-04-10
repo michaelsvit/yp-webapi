@@ -53,8 +53,8 @@ public class ParseDataAsyncInstrumentedTest {
         assertEquals(parsedMovie.getAgeRating(), expectedMovie.getAgeRating());
         assertEquals(parsedMovie.getCountry(), expectedMovie.getCountry());
         assertEquals(parsedMovie.getDirector(), expectedMovie.getDirector());
-        assertEquals(parsedMovie.getEnglishName(), expectedMovie.getEnglishName());
-        assertEquals(parsedMovie.getHebrewName(), expectedMovie.getHebrewName());
+        assertEquals(parsedMovie.getEnglishTitle(), expectedMovie.getEnglishTitle());
+        assertEquals(parsedMovie.getHebrewTitle(), expectedMovie.getHebrewTitle());
         assertEquals(parsedMovie.getId(), expectedMovie.getId());
         assertEquals(parsedMovie.getLength(), expectedMovie.getLength());
         assertEquals(parsedMovie.getReleaseTimestamp(), expectedMovie.getReleaseTimestamp());
