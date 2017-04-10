@@ -8,7 +8,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,11 +32,10 @@ public abstract class JsonParseUtils {
      * Asynchronously parse data received from Yes Planet server.
      *
      * @param data     data string from response
-     * @param cinema   cinema object to be populated with the parsed data
      * @param listener object to be informed when data parsing is completed
      */
-    public static void parseData(String data, Cinema cinema, OnDataParseCompletionListener listener) {
-        (new ParseDataAsync(cinema, listener)).execute(data);
+    public static void parseData(String data, OnDataParseCompletionListener listener) {
+        (new ParseDataAsync(listener)).execute(data);
     }
 
     /**
@@ -44,11 +45,9 @@ public abstract class JsonParseUtils {
 
         private static final String LOG_TAG = ParseDataAsync.class.getSimpleName();
 
-        private Cinema cinema;
         private OnDataParseCompletionListener listener;
 
-        public ParseDataAsync(Cinema cinema, OnDataParseCompletionListener listener) {
-            this.cinema = cinema;
+        public ParseDataAsync(OnDataParseCompletionListener listener) {
             this.listener = listener;
         }
 
@@ -66,7 +65,7 @@ public abstract class JsonParseUtils {
             String dataString = params[0];
             String moviesJson = extractMoviesJson(dataString);
             List<Movie> movies = parseMoviesJson(moviesJson);
-            cinema.updateMovies(movies);
+            Cinema.updateMovies(movies);
             return null;
         }
 
@@ -98,8 +97,8 @@ public abstract class JsonParseUtils {
             final String ACTORS_KEY = "acts";
             final String RELEASE_TIMESTAMP_KEY = "ds";
             final String LENGTH_KEY = "len";
-            final String HEBREW_NAME_KEY = "n";
-            final String ENGLISH_NAME_KEY = "an";
+            final String HEBREW_TITLE_KEY = "n";
+            final String ENGLISH_TITLE_KEY = "an";
             final String RELEASE_YEAR_KEY = "yr";
             final String COUNTRY_KEY = "c";
             final String ID_KEY = "dc";
@@ -120,13 +119,14 @@ public abstract class JsonParseUtils {
 
                     long releaseTimestamp = safeGetReleaseTimestamp(RELEASE_TIMESTAMP_KEY, movie);
 
+                    String releaseDate =
+                            (releaseTimestamp != -1) ? getFormattedDate(releaseTimestamp) : "";
+
                     int length = safeGetLength(LENGTH_KEY, movie);
 
-                    String hebrewName = safeGetString(HEBREW_NAME_KEY, movie);
+                    String hebrewTitle = safeGetString(HEBREW_TITLE_KEY, movie);
 
-                    String englishName = safeGetString(ENGLISH_NAME_KEY, movie);
-
-                    String releaseYear = safeGetString(RELEASE_YEAR_KEY, movie);
+                    String englishTitle = safeGetString(ENGLISH_TITLE_KEY, movie);
 
                     String country = safeGetString(COUNTRY_KEY, movie);
 
@@ -134,7 +134,7 @@ public abstract class JsonParseUtils {
                     if (movie.has(ID_KEY)) {
                         id = movie.getString(ID_KEY);
                     } else {
-                        Log.e(LOG_TAG, "Movie with name: " + englishName + " has no ID");
+                        Log.e(LOG_TAG, "Movie with name: " + englishTitle + " has no ID");
                         continue;
                     }
 
@@ -149,10 +149,10 @@ public abstract class JsonParseUtils {
                             is3d,
                             actors,
                             releaseTimestamp,
-                            releaseYear,
+                            releaseDate,
                             length,
-                            hebrewName,
-                            englishName,
+                            hebrewTitle,
+                            englishTitle,
                             country,
                             director,
                             id,
@@ -165,6 +165,12 @@ public abstract class JsonParseUtils {
             }
 
             return movies;
+        }
+
+        private static String getFormattedDate(long unixTimestamp) {
+            Date date = new Date(unixTimestamp * 1000);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            return sdf.format(date);
         }
 
         private static int safeGetLength(String LENGTH_KEY, JSONObject movie) throws JSONException {

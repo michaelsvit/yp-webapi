@@ -1,29 +1,38 @@
 package com.michaelsvit.yesplanet;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Michael on 4/9/2017.
  *
- * Object representing Yes Planet cinema
+ * Singleton object representing Yes Planet cinema
  */
 
 public class Cinema {
 
     private final static String LOG_TAG = Cinema.class.getSimpleName();
 
-    private List<Movie> movies;
+    private static List<Movie> movies = new ArrayList<>();
 
-    public String getDataUrl() {
+    // Prevent instantiation by declaring private.
+    private Cinema() {
+    }
+
+    public static String getDataUrl() {
         return "http://yesplanet.internet-bee.mobi/" +
                 "TREST_YP3/resources/info/merge/0/CATS,FEAT,TIX,PRSNT";
     }
 
-    public void updateMovies(List<Movie> movies) {
-        this.movies = movies;
+    public static void updateMovies(List<Movie> movies) {
+        Cinema.movies.addAll(movies);
     }
 
-    public String getMoviePosterUrl(String movieId) {
+    public static String getMoviePosterUrl(String movieId) {
         return "http://media3.cinema-city.pl/yp2/Feats/med/" + movieId + ".jpg";
+    }
+
+    public static List<Movie> getMovies() {
+        return movies;
     }
 }

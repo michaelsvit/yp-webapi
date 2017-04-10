@@ -8,12 +8,12 @@ package com.michaelsvit.yesplanet;
 public class Movie {
     private String subtitlesLanguage;  // "Hebrew"
     private boolean is3d;              // false
-    private String actors;         // "Actor1, Actor2" - can be empty
+    private String actors;             // "Actor1, Actor2" - can be empty
     private long releaseTimestamp;     // 1487196000
-    private String releaseYear;        // "2017"
+    private String releaseDate;        // "Apr 1, 1999"
     private int length;                // 122
-    private String hebrewName;         // "Name"
-    private String englishName;        // "Name"
+    private String hebrewTitle;        // "Name"
+    private String englishTitle;       // "Name"
     private String country;            // "US"
     private String director;           // "Director" - can be empty
     private String id;                 // "2012S2R"
@@ -24,10 +24,10 @@ public class Movie {
             String subtitlesLanguage,
             boolean is3d, String actors,
             long releaseTimestamp,
-            String releaseYear,
+            String releaseDate,
             int length,
-            String hebrewName,
-            String englishName,
+            String hebrewTitle,
+            String englishTitle,
             String country,
             String director,
             String id,
@@ -37,10 +37,10 @@ public class Movie {
         this.is3d = is3d;
         this.actors = actors;
         this.releaseTimestamp = releaseTimestamp;
-        this.releaseYear = releaseYear;
+        this.releaseDate = releaseDate;
         this.length = length;
-        this.hebrewName = hebrewName;
-        this.englishName = englishName;
+        this.hebrewTitle = hebrewTitle;
+        this.englishTitle = englishTitle;
         this.country = country;
         this.director = director;
         this.id = id;
@@ -64,20 +64,20 @@ public class Movie {
         return releaseTimestamp;
     }
 
-    public String getReleaseYear() {
-        return releaseYear;
+    public String getReleaseDate() {
+        return releaseDate;
     }
 
     public int getLength() {
         return length;
     }
 
-    public String getHebrewName() {
-        return hebrewName;
+    public String getHebrewTitle() {
+        return hebrewTitle;
     }
 
-    public String getEnglishName() {
-        return englishName;
+    public String getEnglishTitle() {
+        return englishTitle;
     }
 
     public String getCountry() {

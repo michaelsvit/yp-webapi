@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
-    private Cinema cinema;
+    private MovieCardsFragment movieCardsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +53,17 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        // Main Cinema object
-        cinema = new Cinema();
-
         // Initiate asynchronous data fetching
-        DataFetchUtils.fetchData(cinema.getDataUrl(), new Callback() {
+        fetchData();
+
+        movieCardsFragment = new MovieCardsFragment();
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, movieCardsFragment)
+                .commit();
+    }
+
+    private void fetchData() {
+        DataFetchUtils.fetchData(Cinema.getDataUrl(), new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
@@ -70,10 +76,9 @@ public class MainActivity extends AppCompatActivity
                     throw new IOException();
                 }
 
-                JsonParseUtils.parseData(response.body().string(), cinema, MainActivity.this);
+                JsonParseUtils.parseData(response.body().string(), MainActivity.this);
             }
         });
-
     }
 
     @Override
@@ -135,6 +140,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onDataParseCompletion() {
-        Log.d(LOG_TAG, "Data parsing completed");
+        if (movieCardsFragment != null) {
+            movieCardsFragment.notifyDataSetChanged();
+        }
     }
 }
