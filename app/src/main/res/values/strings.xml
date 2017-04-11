@@ -9,4 +9,8 @@
 
     <string name="movie_poster_description">Movie poster</string>
     <string name="actors">Actors:</string>
+    <string name="length_minutes">Length (min):</string>
+    <string name="_3d">3D</string>
+    <string name="release_date">Release date:</string>
+    <string name="director">Director:</string>
 </resources>
