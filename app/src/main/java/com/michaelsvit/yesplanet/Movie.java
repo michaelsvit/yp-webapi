@@ -1,11 +1,14 @@
 package com.michaelsvit.yesplanet;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Michael on 4/9/2017.
  * Single movie featured in Yes Planet.
  */
 
-public class Movie {
+public class Movie implements Parcelable {
     private String subtitlesLanguage;  // "Hebrew"
     private boolean is3d;              // false
     private String actors;             // "Actor1, Actor2" - can be empty
@@ -47,6 +50,56 @@ public class Movie {
         this.ageRating = ageRating;
         this.youtubeTrailerId = youtubeTrailerId;
     }
+
+    protected Movie(Parcel in) {
+        subtitlesLanguage = in.readString();
+        is3d = in.readByte() != 0;
+        actors = in.readString();
+        releaseTimestamp = in.readLong();
+        releaseDate = in.readString();
+        length = in.readInt();
+        hebrewTitle = in.readString();
+        englishTitle = in.readString();
+        country = in.readString();
+        director = in.readString();
+        id = in.readString();
+        ageRating = in.readString();
+        youtubeTrailerId = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(subtitlesLanguage);
+        dest.writeByte((byte) (is3d ? 1 : 0));
+        dest.writeString(actors);
+        dest.writeLong(releaseTimestamp);
+        dest.writeString(releaseDate);
+        dest.writeInt(length);
+        dest.writeString(hebrewTitle);
+        dest.writeString(englishTitle);
+        dest.writeString(country);
+        dest.writeString(director);
+        dest.writeString(id);
+        dest.writeString(ageRating);
+        dest.writeString(youtubeTrailerId);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel in) {
+            return new Movie(in);
+        }
+
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
 
     public String getSubtitlesLanguage() {
         return subtitlesLanguage;

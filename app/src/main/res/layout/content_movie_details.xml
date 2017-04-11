@@ -46,7 +46,7 @@
             app:layout_constraintTop_toBottomOf="@+id/movie_details_director" />
 
         <ImageView
-            android:id="@+id/poster"
+            android:id="@+id/movie_details_poster"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:contentDescription="@string/movie_poster_description"
@@ -163,7 +163,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/poster"
+            app:layout_constraintTop_toBottomOf="@+id/movie_details_poster"
             tools:text="@string/large_text" />
 
     </android.support.constraint.ConstraintLayout>
