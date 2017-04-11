@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity
                     JsonParseUtils.OnDataParseCompletionListener {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
+    private static final String MOVIES_FRAGMENT_TAG = "movies_fragment";
 
     private MoviesFragment moviesFragment;
 
@@ -58,10 +59,13 @@ public class MainActivity extends AppCompatActivity
             fetchData();
         }
 
-        moviesFragment = new MoviesFragment();
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, moviesFragment)
-                .commit();
+        moviesFragment = (MoviesFragment) getSupportFragmentManager().findFragmentByTag(MOVIES_FRAGMENT_TAG);
+        if (moviesFragment == null) {
+            moviesFragment = new MoviesFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, moviesFragment, MOVIES_FRAGMENT_TAG)
+                    .commit();
+        }
     }
 
     private void fetchData() {
