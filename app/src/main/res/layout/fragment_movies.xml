@@ -8,4 +8,4 @@
     android:paddingLeft="8dp"
     android:paddingRight="8dp"
     android:clipToPadding="false"
-    tools:context="com.michaelsvit.yesplanet.MovieCardsFragment" />
+    tools:context="com.michaelsvit.yesplanet.MoviesFragment" />

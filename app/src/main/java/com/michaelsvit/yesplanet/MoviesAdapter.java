@@ -17,12 +17,12 @@ import java.util.List;
  * Adapter for the RecyclerView with movie cards.
  */
 
-public class MovieCardsAdapter extends RecyclerView.Adapter<MovieCardsAdapter.ViewHolder> {
+public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder> {
 
     private List<Movie> movies;
     private Context context;
 
-    public MovieCardsAdapter(List<Movie> movies, Context context) {
+    public MoviesAdapter(List<Movie> movies, Context context) {
         this.movies = movies;
         this.context = context;
     }
@@ -31,7 +31,7 @@ public class MovieCardsAdapter extends RecyclerView.Adapter<MovieCardsAdapter.Vi
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater
                 .from(parent.getContext())
-                .inflate(R.layout.movie_card, parent, false);
+                .inflate(R.layout.movie_item, parent, false);
 
         return new ViewHolder(itemView);
     }
@@ -40,7 +40,7 @@ public class MovieCardsAdapter extends RecyclerView.Adapter<MovieCardsAdapter.Vi
     public void onBindViewHolder(ViewHolder holder, int position) {
         Movie movie = movies.get(position);
         Glide.with(context).load(Cinema.getMoviePosterUrl(movie.getId())).into(holder.poster);
-        holder.title.setText(movie.getEnglishTitle());
+        holder.title.setText(movie.getHebrewTitle());
     }
 
     @Override

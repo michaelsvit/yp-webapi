@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
-    private MovieCardsFragment movieCardsFragment;
+    private MoviesFragment moviesFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +58,9 @@ public class MainActivity extends AppCompatActivity
             fetchData();
         }
 
-        movieCardsFragment = new MovieCardsFragment();
+        moviesFragment = new MoviesFragment();
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, movieCardsFragment)
+                .add(R.id.fragment_container, moviesFragment)
                 .commit();
     }
 
@@ -142,8 +142,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onDataParseCompletion() {
-        if (movieCardsFragment != null) {
-            movieCardsFragment.notifyDataSetChanged();
+        if (moviesFragment != null) {
+            moviesFragment.notifyDataSetChanged();
         }
     }
 }
