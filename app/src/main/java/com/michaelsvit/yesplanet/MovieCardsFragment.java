@@ -2,7 +2,7 @@ package com.michaelsvit.yesplanet;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +30,7 @@ public class MovieCardsFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_movie_cards, container, false);
 
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.movies_recycler_view);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         movies = Cinema.getMovies();

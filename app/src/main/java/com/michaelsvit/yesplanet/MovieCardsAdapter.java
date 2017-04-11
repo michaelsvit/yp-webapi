@@ -38,15 +38,9 @@ public class MovieCardsAdapter extends RecyclerView.Adapter<MovieCardsAdapter.Vi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        // TODO: handle empty fields
         Movie movie = movies.get(position);
         Glide.with(context).load(Cinema.getMoviePosterUrl(movie.getId())).into(holder.poster);
-        holder.is3d.setVisibility(movie.is3d() ? View.VISIBLE : View.INVISIBLE);
         holder.title.setText(movie.getEnglishTitle());
-        holder.length.setText(String.valueOf(movie.getLength()));
-        holder.actors.setText(movie.getActors());
-        holder.director.setText(movie.getDirector());
-        holder.releaseDate.setText(movie.getReleaseDate());
     }
 
     @Override
@@ -56,19 +50,14 @@ public class MovieCardsAdapter extends RecyclerView.Adapter<MovieCardsAdapter.Vi
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView poster, is3d;
-        private TextView title, length, actors, director, releaseDate;
+        private ImageView poster;
+        private TextView title;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             poster = (ImageView) itemView.findViewById(R.id.poster);
-            is3d = (ImageView) itemView.findViewById(R.id.is_3d_ic);
             title = (TextView) itemView.findViewById(R.id.title);
-            length = (TextView) itemView.findViewById(R.id.length);
-            actors = (TextView) itemView.findViewById(R.id.actors);
-            director = (TextView) itemView.findViewById(R.id.director);
-            releaseDate = (TextView) itemView.findViewById(R.id.release_date);
         }
     }
 }
