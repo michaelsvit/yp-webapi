@@ -58,7 +58,7 @@ public class ParseDataAsyncInstrumentedTest {
         assertEquals(parsedMovie.getId(), expectedMovie.getId());
         assertEquals(parsedMovie.getLength(), expectedMovie.getLength());
         assertEquals(parsedMovie.getReleaseTimestamp(), expectedMovie.getReleaseTimestamp());
-        assertEquals(parsedMovie.getReleaseYear(), expectedMovie.getReleaseYear());
+        assertEquals(parsedMovie.getReleaseDate(), expectedMovie.getReleaseDate());
         assertEquals(parsedMovie.getSubtitlesLanguage(), expectedMovie.getSubtitlesLanguage());
         assertEquals(parsedMovie.getYoutubeTrailerId(), expectedMovie.getYoutubeTrailerId());
     }
