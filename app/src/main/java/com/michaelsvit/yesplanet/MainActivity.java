@@ -53,8 +53,10 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        // Initiate asynchronous data fetching
-        fetchData();
+        if (Cinema.getMovies().size() == 0) {
+            // Initiate asynchronous data fetching
+            fetchData();
+        }
 
         movieCardsFragment = new MovieCardsFragment();
         getSupportFragmentManager().beginTransaction()
