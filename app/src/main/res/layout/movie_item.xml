@@ -14,7 +14,7 @@
         android:id="@+id/poster"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#AAAAAA"
+        android:background="@color/colorPosterPlaceholder"
         android:contentDescription="@string/movie_poster_description"
         app:layout_constraintDimensionRatio="5:7"
         app:layout_constraintLeft_toLeftOf="parent"
