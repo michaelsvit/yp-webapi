@@ -1,5 +1,7 @@
 package com.michaelsvit.yesplanet;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -7,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -51,7 +54,10 @@ public class MovieDetailsActivity extends AppCompatActivity {
         Glide.with(this).load(Cinema.getMoviePosterUrl(movie.getId())).into(poster);
 
         TextView length = (TextView) findViewById(R.id.movie_details_length);
-        length.setText(String.valueOf(movie.getLength()));
+        length.setText(String.format(
+                        "%s %s",
+                        String.valueOf(movie.getLength()),
+                        getString(R.string.minutes)));
 
         TextView releaseDate = (TextView) findViewById(R.id.movie_details_release_date);
         releaseDate.setText(movie.getReleaseDate());
@@ -67,6 +73,23 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
         TextView actors = (TextView) findViewById(R.id.movie_details_actors);
         actors.setText(movie.getActors());
+
+        Button button = (Button) findViewById(R.id.movie_details_trailer_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse(getYoutubeUrl(movie.getYoutubeTrailerId())));
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent);
+                }
+            }
+
+            private String getYoutubeUrl(String youtubeTrailerId) {
+                return "https://www.youtube.com/watch?v=" + youtubeTrailerId;
+            }
+        });
     }
 
     private void updateSynopsis(final TextView synopsis) {
@@ -82,14 +105,10 @@ public class MovieDetailsActivity extends AppCompatActivity {
                 if (!response.isSuccessful()) {
                     throw new IOException();
                 }
+                final String synopsisString = response.body().string();
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        try {
-                            synopsis.setText(response.body().string());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            Log.e(LOG_TAG, "Error updating synopsis text with request result");
-                        }
+                        synopsis.setText(synopsisString);
                     }
                 });
             }

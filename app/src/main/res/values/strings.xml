@@ -24,4 +24,5 @@
     <string name="country">ארץ</string>
     <string name="categories">סיווג</string>
     <string name="age_limit">מגבלה</string>
+    <string name="minutes">דקות</string>
 </resources>
