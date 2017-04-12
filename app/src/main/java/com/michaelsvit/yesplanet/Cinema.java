@@ -32,7 +32,15 @@ public class Cinema {
         return "http://media3.cinema-city.pl/yp2/Feats/med/" + movieId + ".jpg";
     }
 
+    public static String getSynopsisUrl(String movieId) {
+        return "http://yesplanet.internet-bee.mobi/TREST_YP3/resources/info/synopsis/" + movieId;
+    }
+
     public static List<Movie> getMovies() {
         return movies;
+    }
+
+    public static Movie getMovie(int position) {
+        return movies.get(position);
     }
 }

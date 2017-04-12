@@ -1,6 +1,7 @@
 package com.michaelsvit.yesplanet;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +34,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
                 .from(parent.getContext())
                 .inflate(R.layout.movie_item, parent, false);
 
-        return new ViewHolder(itemView);
+        return new ViewHolder(itemView, context);
     }
 
     @Override
@@ -48,16 +49,27 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
         return movies.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private ImageView poster;
         private TextView title;
 
-        public ViewHolder(View itemView) {
+        private Context context;
+
+        public ViewHolder(View itemView, Context context) {
             super(itemView);
 
             poster = (ImageView) itemView.findViewById(R.id.movie_details_poster);
             title = (TextView) itemView.findViewById(R.id.title);
+            this.context = context;
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(context, MovieDetailsActivity.class);
+            intent.putExtra(MovieDetailsActivity.MOVIE_EXTRA, Cinema.getMovie(getAdapterPosition()));
+            context.startActivity(intent);
         }
     }
 }

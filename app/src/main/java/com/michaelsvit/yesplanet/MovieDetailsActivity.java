@@ -12,6 +12,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+
 public class MovieDetailsActivity extends AppCompatActivity {
 
     public static final String LOG_TAG = MovieDetailsActivity.class.getSimpleName();
@@ -45,7 +51,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         Glide.with(this).load(Cinema.getMoviePosterUrl(movie.getId())).into(poster);
 
         TextView length = (TextView) findViewById(R.id.movie_details_length);
-        length.setText(movie.getLength());
+        length.setText(String.valueOf(movie.getLength()));
 
         TextView releaseDate = (TextView) findViewById(R.id.movie_details_release_date);
         releaseDate.setText(movie.getReleaseDate());
@@ -56,11 +62,38 @@ public class MovieDetailsActivity extends AppCompatActivity {
         TextView categories = (TextView) findViewById(R.id.movie_details_categories);
         // TODO: update categories
 
-        TextView synopsis = (TextView) findViewById(R.id.movie_details_synopsis);
-        // TODO: update synopsis
+        final TextView synopsis = (TextView) findViewById(R.id.movie_details_synopsis);
+        updateSynopsis(synopsis);
 
         TextView actors = (TextView) findViewById(R.id.movie_details_actors);
         actors.setText(movie.getActors());
+    }
+
+    private void updateSynopsis(final TextView synopsis) {
+        DataFetchUtils.fetchData(Cinema.getSynopsisUrl(movie.getId()), new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+                Log.e(LOG_TAG, "Error fetching synopsis from URL: " + call.request().url());
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                if (!response.isSuccessful()) {
+                    throw new IOException();
+                }
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        try {
+                            synopsis.setText(response.body().string());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            Log.e(LOG_TAG, "Error updating synopsis text with request result");
+                        }
+                    }
+                });
+            }
+        });
     }
 
     private void getMovie() {
