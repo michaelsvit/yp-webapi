@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -36,7 +37,50 @@ public class MoviesFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_fragment_movies, menu);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_filter_all:
+                filter = "";
+                break;
+            case R.id.action_filter_drama:
+                filter = String.valueOf(Movie.getMovieCategoryId(Movie.Category.DRAMA));
+                break;
+            case R.id.action_filter_thriller:
+                filter = String.valueOf(Movie.getMovieCategoryId(Movie.Category.THRILLER));
+                break;
+            case R.id.action_filter_action:
+                filter = String.valueOf(Movie.getMovieCategoryId(Movie.Category.ACTION));
+                break;
+            case R.id.action_filter_comedy:
+                filter = String.valueOf(Movie.getMovieCategoryId(Movie.Category.COMEDY));
+                break;
+            case R.id.action_filter_kids:
+                filter = String.valueOf(Movie.getMovieCategoryId(Movie.Category.KIDS));
+                break;
+            case R.id.action_filter_kids_show:
+                filter = String.valueOf(Movie.getMovieCategoryId(Movie.Category.KIDS_SHOW));
+                break;
+            case R.id.action_filter_kids_club:
+                filter = String.valueOf(Movie.getMovieCategoryId(Movie.Category.KIDS_CLUB));
+                break;
+            case R.id.action_filter_morning_events:
+                filter = String.valueOf(Movie.getMovieCategoryId(Movie.Category.MORNING_EVENTS));
+                break;
+            case R.id.action_filter_opera:
+                filter = String.valueOf(Movie.getMovieCategoryId(Movie.Category.OPERA));
+                break;
+            case R.id.action_filter_classic:
+                filter = String.valueOf(Movie.getMovieCategoryId(Movie.Category.CLASSIC));
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        adapter.getFilter().filter(filter);
+        return true;
     }
 
     @Override
