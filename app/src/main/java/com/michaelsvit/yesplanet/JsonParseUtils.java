@@ -11,7 +11,9 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Michael on 4/9/2017.
@@ -45,6 +47,8 @@ public abstract class JsonParseUtils {
 
         private static final String LOG_TAG = ParseDataAsync.class.getSimpleName();
 
+        private List<Movie> movies;
+
         private OnDataParseCompletionListener listener;
 
         public ParseDataAsync(OnDataParseCompletionListener listener) {
@@ -64,16 +68,83 @@ public abstract class JsonParseUtils {
 
             String dataString = params[0];
             String moviesJson = extractMoviesJson(dataString);
-            List<Movie> movies = parseMoviesJson(moviesJson);
+            Map<String, Integer> idToIndexMap = parseMoviesJson(moviesJson);
+            String categoriesJson = extractCategoriesJson(dataString);
+            updateMovieCategories(categoriesJson, idToIndexMap);
             Cinema.updateMovies(movies);
             return null;
+        }
+
+        private void updateMovieCategories(String categoriesJson, Map<String, Integer> idToIndexMap) {
+            try {
+                JSONArray catArray = new JSONArray(categoriesJson);
+                for(int i = 0; i < catArray.length(); i++) {
+                    JSONObject category = catArray.getJSONObject(i);
+
+                    final String CATEGORY_MOVIES_KEY = "FC";
+                    final String CATEGORY_ID_KEY = "id";
+
+                    Movie.Category movieCategory = getMovieCategory(category.getInt(CATEGORY_ID_KEY));
+                    JSONArray catMoviesArray = category.getJSONArray(CATEGORY_MOVIES_KEY);
+                    for(int j = 0; j < catMoviesArray.length(); j++) {
+                        String movieId = catMoviesArray.getString(j);
+                        final Integer index = idToIndexMap.get(movieId);
+                        if (index != null) {
+                            Movie movie = movies.get(index);
+                            movie.addCategory(movieCategory);
+                        }
+                    }
+                }
+            } catch (JSONException e) {
+                Log.e(LOG_TAG, "Error parsing categories data");
+            }
+        }
+
+        private Movie.Category getMovieCategory(int id) {
+            switch (id) {
+                case 32:
+                    return Movie.Category.KIDS_SHOW;
+                case 34:
+                    return Movie.Category.MORNING;
+                case 36:
+                    return Movie.Category.KIDS_CLUB;
+                case 37:
+                    return Movie.Category.OPERA;
+                case 10:
+                    return Movie.Category.DRAMA;
+                case 11:
+                    return Movie.Category.THRILLER;
+                case 12:
+                    return Movie.Category.ACTION;
+                case 13:
+                    return Movie.Category.COMEDY;
+                case 14:
+                    return Movie.Category.KIDS;
+                case 31:
+                    return Movie.Category.CLASSIC;
+                default:
+                    Log.e(LOG_TAG, "Unrecognized category with id: " + id);
+                    return null;
+            }
+        }
+
+        /**
+         * Extract valid JSON string containing categories data from Yes Planet data server response.
+         * @param dataString data server response
+         * @return           valid JSON string
+         */
+        private String extractCategoriesJson(String dataString) {
+            final int beginIndex = 0;
+            final String endString = "}||{";
+            final int endIndex = dataString.indexOf(endString);
+            return dataString.substring(beginIndex, endIndex);
         }
 
         /**
          * Extract valid JSON string containing movies data from Yes Planet data server response.
          *
          * @param dataString data server response
-         * @return valid JSON string
+         * @return           valid JSON string
          */
         public static String extractMoviesJson(String dataString) {
             final String beginString = "\"Feats\":";
@@ -89,8 +160,9 @@ public abstract class JsonParseUtils {
          *
          * @param json JSON string to be parsed
          */
-        public static List<Movie> parseMoviesJson(String json) {
-            List<Movie> movies = new ArrayList<>();
+        public Map<String, Integer> parseMoviesJson(String json) {
+            movies = new ArrayList<>();
+            Map<String, Integer> idToIndexMap = new HashMap<>();
 
             final String SUB_LANG_KEY = "sub";
             final String IS_3D_KEY = "is3d";
@@ -144,7 +216,7 @@ public abstract class JsonParseUtils {
 
                     String youtubeTrailerId = safeGetYoutubeTrailerId(YOUTUBE_TRAILER_ID, movie);
 
-                    movies.add(new Movie(
+                    movies.add(i, new Movie(
                             subtitlesLanguage,
                             is3d,
                             actors,
@@ -158,13 +230,14 @@ public abstract class JsonParseUtils {
                             id,
                             ageRating,
                             youtubeTrailerId));
+                    idToIndexMap.put(id, i);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
                 Log.e(LOG_TAG, "Error parsing JSON string");
             }
 
-            return movies;
+            return idToIndexMap;
         }
 
         private static String getFormattedDate(long unixTimestamp) {

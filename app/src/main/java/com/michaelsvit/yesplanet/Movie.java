@@ -3,12 +3,20 @@ package com.michaelsvit.yesplanet;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Michael on 4/9/2017.
  * Single movie featured in Yes Planet.
  */
 
 public class Movie implements Parcelable {
+
+    public enum Category{
+        KIDS_SHOW, MORNING, KIDS_CLUB, OPERA, DRAMA, THRILLER, ACTION, COMEDY, KIDS, CLASSIC
+    }
+
     private String subtitlesLanguage;  // "Hebrew"
     private boolean is3d;              // false
     private String actors;             // "Actor1, Actor2" - can be empty
@@ -22,6 +30,7 @@ public class Movie implements Parcelable {
     private String id;                 // "2012S2R"
     private String ageRating;          // "Restricted to age 16+"
     private String youtubeTrailerId;   // "zQbuwG5R85k"
+    private List<Category> categories;
 
     public Movie(
             String subtitlesLanguage,
@@ -49,6 +58,7 @@ public class Movie implements Parcelable {
         this.id = id;
         this.ageRating = ageRating;
         this.youtubeTrailerId = youtubeTrailerId;
+        this.categories = new ArrayList<>();
     }
 
     protected Movie(Parcel in) {
@@ -65,6 +75,7 @@ public class Movie implements Parcelable {
         id = in.readString();
         ageRating = in.readString();
         youtubeTrailerId = in.readString();
+        categories = in.readArrayList(null);
     }
 
     @Override
@@ -82,6 +93,7 @@ public class Movie implements Parcelable {
         dest.writeString(id);
         dest.writeString(ageRating);
         dest.writeString(youtubeTrailerId);
+        dest.writeList(categories);
     }
 
     @Override
@@ -151,5 +163,13 @@ public class Movie implements Parcelable {
 
     public String getYoutubeTrailerId() {
         return youtubeTrailerId;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void addCategory(Category category) {
+        categories.add(category);
     }
 }

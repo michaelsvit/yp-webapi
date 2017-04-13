@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import java.io.IOException;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -66,7 +67,8 @@ public class MovieDetailsActivity extends AppCompatActivity {
         director.setText(movie.getDirector());
 
         TextView categories = (TextView) findViewById(R.id.movie_details_categories);
-        // TODO: update categories
+        List<Movie.Category> categoryList = movie.getCategories();
+        categories.setText(categoryList.toString());
 
         final TextView synopsis = (TextView) findViewById(R.id.movie_details_synopsis);
         updateSynopsis(synopsis);
