@@ -2,9 +2,12 @@ package com.michaelsvit.yesplanet;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.michaelsvit.yesplanet.MovieDetailsActivity.LOG_TAG;
 
 /**
  * Created by Michael on 4/9/2017.
@@ -14,7 +17,7 @@ import java.util.List;
 public class Movie implements Parcelable {
 
     public enum Category{
-        KIDS_SHOW, MORNING, KIDS_CLUB, OPERA, DRAMA, THRILLER, ACTION, COMEDY, KIDS, CLASSIC
+        KIDS_SHOW, MORNING_EVENTS, KIDS_CLUB, OPERA, DRAMA, THRILLER, ACTION, COMEDY, KIDS, CLASSIC
     }
 
     private String subtitlesLanguage;  // "Hebrew"
@@ -171,5 +174,71 @@ public class Movie implements Parcelable {
 
     public void addCategory(Category category) {
         categories.add(category);
+    }
+
+    /**
+     * Convert category ID to type-safe enum value.
+     * @param id  category ID
+     * @return    enum value
+     */
+    public static Category getMovieCategory(int id) {
+        switch (id) {
+            case 32:
+                return Movie.Category.KIDS_SHOW;
+            case 34:
+                return Movie.Category.MORNING_EVENTS;
+            case 36:
+                return Movie.Category.KIDS_CLUB;
+            case 37:
+                return Movie.Category.OPERA;
+            case 10:
+                return Movie.Category.DRAMA;
+            case 11:
+                return Movie.Category.THRILLER;
+            case 12:
+                return Movie.Category.ACTION;
+            case 13:
+                return Movie.Category.COMEDY;
+            case 14:
+                return Movie.Category.KIDS;
+            case 31:
+                return Movie.Category.CLASSIC;
+            default:
+                Log.e(LOG_TAG, "Unrecognized category with id: " + id);
+                return null;
+        }
+    }
+
+    /**
+     * Convert category ID to type-safe enum value.
+     * @param category  enum category value
+     * @return          category id
+     */
+    public static int getMovieCategoryId(Category category) {
+        switch (category) {
+            case KIDS_SHOW:
+                return 32;
+            case MORNING_EVENTS:
+                return 34;
+            case KIDS_CLUB:
+                return 36;
+            case OPERA:
+                return 37;
+            case DRAMA:
+                return 10;
+            case THRILLER:
+                return 11;
+            case ACTION:
+                return 12;
+            case COMEDY:
+                return 13;
+            case KIDS:
+                return 14;
+            case CLASSIC:
+                return 31;
+            default:
+                Log.e(LOG_TAG, "Unrecognized category: " + category);
+                return -1;
+        }
     }
 }

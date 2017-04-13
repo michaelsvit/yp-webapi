@@ -111,7 +111,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         switch (category) {
             case KIDS_SHOW:
                 return "הצגת ילדים";
-            case MORNING:
+            case MORNING_EVENTS:
                 return "אירועי בוקר";
             case KIDS_CLUB:
                 return "Kids Club";

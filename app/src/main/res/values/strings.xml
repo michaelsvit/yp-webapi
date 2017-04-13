@@ -5,7 +5,7 @@
     <string name="navigation_drawer_close">סגור תפריט ניווט</string>
 
     <string name="action_settings">הגדרות</string>
-    <string name="movies">סרטים</string>
+    <string name="unfilteredMovies">סרטים</string>
 
     <string name="movie_poster_description">פוסטר</string>
     <string name="actors">שחקנים</string>
@@ -25,4 +25,15 @@
     <string name="categories">סיווג</string>
     <string name="age_limit">מגבלה</string>
     <string name="minutes">דקות</string>
+    <string name="filter">סינון</string>
+    <string name="kids_show">הצגות ילדים</string>
+    <string name="morning_events">ארועי בוקר</string>
+    <string name="kids_club">מועדון ילדים</string>
+    <string name="opera">אופרה</string>
+    <string name="drama">דרמה</string>
+    <string name="thriller">מתח</string>
+    <string name="action">פעולה</string>
+    <string name="comedy">קומדיה</string>
+    <string name="kids">ילדים</string>
+    <string name="classic">קלאסיק</string>
 </resources>

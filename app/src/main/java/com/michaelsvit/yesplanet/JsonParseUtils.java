@@ -84,7 +84,7 @@ public abstract class JsonParseUtils {
                     final String CATEGORY_MOVIES_KEY = "FC";
                     final String CATEGORY_ID_KEY = "id";
 
-                    Movie.Category movieCategory = getMovieCategory(category.getInt(CATEGORY_ID_KEY));
+                    Movie.Category movieCategory = Movie.getMovieCategory(category.getInt(CATEGORY_ID_KEY));
                     JSONArray catMoviesArray = category.getJSONArray(CATEGORY_MOVIES_KEY);
                     for(int j = 0; j < catMoviesArray.length(); j++) {
                         String movieId = catMoviesArray.getString(j);
@@ -97,34 +97,6 @@ public abstract class JsonParseUtils {
                 }
             } catch (JSONException e) {
                 Log.e(LOG_TAG, "Error parsing categories data");
-            }
-        }
-
-        private Movie.Category getMovieCategory(int id) {
-            switch (id) {
-                case 32:
-                    return Movie.Category.KIDS_SHOW;
-                case 34:
-                    return Movie.Category.MORNING;
-                case 36:
-                    return Movie.Category.KIDS_CLUB;
-                case 37:
-                    return Movie.Category.OPERA;
-                case 10:
-                    return Movie.Category.DRAMA;
-                case 11:
-                    return Movie.Category.THRILLER;
-                case 12:
-                    return Movie.Category.ACTION;
-                case 13:
-                    return Movie.Category.COMEDY;
-                case 14:
-                    return Movie.Category.KIDS;
-                case 31:
-                    return Movie.Category.CLASSIC;
-                default:
-                    Log.e(LOG_TAG, "Unrecognized category with id: " + id);
-                    return null;
             }
         }
 
