@@ -68,7 +68,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
         TextView categories = (TextView) findViewById(R.id.movie_details_categories);
         List<Movie.Category> categoryList = movie.getCategories();
-        categories.setText(categoryList.toString());
+        categories.setText(getCategoriesString(categoryList));
 
         final TextView synopsis = (TextView) findViewById(R.id.movie_details_synopsis);
         updateSynopsis(synopsis);
@@ -92,6 +92,47 @@ public class MovieDetailsActivity extends AppCompatActivity {
                 return "https://www.youtube.com/watch?v=" + youtubeTrailerId;
             }
         });
+    }
+
+    private String getCategoriesString(List<Movie.Category> categoryList) {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < categoryList.size(); i++) {
+            Movie.Category category = categoryList.get(i);
+            String categoryString = getCategoryString(category);
+            result.append(categoryString);
+            if (i != categoryList.size() - 1) {
+                result.append(", ");
+            }
+        }
+        return result.toString();
+    }
+
+    private String getCategoryString(Movie.Category category) {
+        switch (category) {
+            case KIDS_SHOW:
+                return "הצגת ילדים";
+            case MORNING:
+                return "אירועי בוקר";
+            case KIDS_CLUB:
+                return "Kids Club";
+            case OPERA:
+                return "אופרה";
+            case DRAMA:
+                return "דרמה";
+            case THRILLER:
+                return "מתח";
+            case ACTION:
+                return "פעולה";
+            case COMEDY:
+                return "קומדיה";
+            case KIDS:
+                return "ילדים";
+            case CLASSIC:
+                return "קלאסיק";
+            default:
+                Log.e(LOG_TAG, "Unrecognized enum category: " + category);
+                return null;
+        }
     }
 
     private void updateSynopsis(final TextView synopsis) {
