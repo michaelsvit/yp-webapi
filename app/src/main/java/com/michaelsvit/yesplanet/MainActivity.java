@@ -138,12 +138,9 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onDataParseCompletion() {
-        moviesFragment = (MoviesFragment) getSupportFragmentManager().findFragmentByTag(MOVIES_FRAGMENT_TAG);
-        if (moviesFragment == null) {
-            moviesFragment = new MoviesFragment();
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, moviesFragment, MOVIES_FRAGMENT_TAG)
-                    .commit();
-        }
+        moviesFragment = new MoviesFragment();
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, moviesFragment, MOVIES_FRAGMENT_TAG)
+                .commit();
     }
 }
