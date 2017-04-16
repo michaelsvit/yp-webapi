@@ -115,8 +115,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
             if (constraint.length() == 0) {
                 filteredMovies.addAll(unfilteredMovies);
             } else {
-                Movie.Category category =
-                        Movie.getMovieCategory(Integer.valueOf(constraint.toString()));
+                Movie.Category category = Movie.Category.valueOf(constraint.toString());
                 for (Movie movie : unfilteredMovies) {
                     if (movie.getCategories().contains(category)) {
                         filteredMovies.add(movie);

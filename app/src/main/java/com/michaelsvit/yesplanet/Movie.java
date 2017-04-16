@@ -208,37 +208,4 @@ public class Movie implements Parcelable {
                 return null;
         }
     }
-
-    /**
-     * Convert category ID to type-safe enum value.
-     * @param category  enum category value
-     * @return          category id
-     */
-    public static int getMovieCategoryId(Category category) {
-        switch (category) {
-            case KIDS_SHOW:
-                return 32;
-            case MORNING_EVENTS:
-                return 34;
-            case KIDS_CLUB:
-                return 36;
-            case OPERA:
-                return 37;
-            case DRAMA:
-                return 10;
-            case THRILLER:
-                return 11;
-            case ACTION:
-                return 12;
-            case COMEDY:
-                return 13;
-            case KIDS:
-                return 14;
-            case CLASSIC:
-                return 31;
-            default:
-                Log.e(LOG_TAG, "Unrecognized category: " + category);
-                return -1;
-        }
-    }
 }

@@ -55,34 +55,34 @@ public class MoviesFragment extends Fragment {
                 filter = "";
                 break;
             case R.id.action_filter_drama:
-                filter = String.valueOf(Movie.getMovieCategoryId(Movie.Category.DRAMA));
+                filter = Movie.Category.DRAMA.name();
                 break;
             case R.id.action_filter_thriller:
-                filter = String.valueOf(Movie.getMovieCategoryId(Movie.Category.THRILLER));
+                filter = Movie.Category.THRILLER.name();
                 break;
             case R.id.action_filter_action:
-                filter = String.valueOf(Movie.getMovieCategoryId(Movie.Category.ACTION));
+                filter = Movie.Category.ACTION.name();
                 break;
             case R.id.action_filter_comedy:
-                filter = String.valueOf(Movie.getMovieCategoryId(Movie.Category.COMEDY));
+                filter = Movie.Category.COMEDY.name();
                 break;
             case R.id.action_filter_kids:
-                filter = String.valueOf(Movie.getMovieCategoryId(Movie.Category.KIDS));
+                filter = Movie.Category.KIDS.name();
                 break;
             case R.id.action_filter_kids_show:
-                filter = String.valueOf(Movie.getMovieCategoryId(Movie.Category.KIDS_SHOW));
+                filter = Movie.Category.KIDS_SHOW.name();
                 break;
             case R.id.action_filter_kids_club:
-                filter = String.valueOf(Movie.getMovieCategoryId(Movie.Category.KIDS_CLUB));
+                filter = Movie.Category.KIDS_CLUB.name();
                 break;
             case R.id.action_filter_morning_events:
-                filter = String.valueOf(Movie.getMovieCategoryId(Movie.Category.MORNING_EVENTS));
+                filter = Movie.Category.MORNING_EVENTS.name();
                 break;
             case R.id.action_filter_opera:
-                filter = String.valueOf(Movie.getMovieCategoryId(Movie.Category.OPERA));
+                filter = Movie.Category.OPERA.name();
                 break;
             case R.id.action_filter_classic:
-                filter = String.valueOf(Movie.getMovieCategoryId(Movie.Category.CLASSIC));
+                filter = Movie.Category.CLASSIC.name();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
