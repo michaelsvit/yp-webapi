@@ -23,6 +23,7 @@ import static com.michaelsvit.yesplanet.MovieDetailsActivity.LOG_TAG;
  */
 public class MoviesFragment extends Fragment {
 
+    private RecyclerView recyclerView;
     private MoviesAdapter adapter;
     private List<Movie> movies;
     private String filter;
@@ -88,6 +89,7 @@ public class MoviesFragment extends Fragment {
                 return super.onOptionsItemSelected(item);
         }
         adapter.getFilter().filter(filter);
+        recyclerView.scrollToPosition(0);
         return true;
     }
 
@@ -125,7 +127,7 @@ public class MoviesFragment extends Fragment {
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_movies, container, false);
 
-        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.movies_recycler_view);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.movies_recycler_view);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
