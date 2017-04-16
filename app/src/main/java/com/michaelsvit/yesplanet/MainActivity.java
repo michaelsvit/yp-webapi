@@ -58,14 +58,6 @@ public class MainActivity extends AppCompatActivity
             // Initiate asynchronous data fetching
             fetchData();
         }
-
-        moviesFragment = (MoviesFragment) getSupportFragmentManager().findFragmentByTag(MOVIES_FRAGMENT_TAG);
-        if (moviesFragment == null) {
-            moviesFragment = new MoviesFragment();
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, moviesFragment, MOVIES_FRAGMENT_TAG)
-                    .commit();
-        }
     }
 
     private void fetchData() {
@@ -146,8 +138,12 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onDataParseCompletion() {
-        if (moviesFragment != null) {
-            moviesFragment.notifyDataSetChanged();
+        moviesFragment = (MoviesFragment) getSupportFragmentManager().findFragmentByTag(MOVIES_FRAGMENT_TAG);
+        if (moviesFragment == null) {
+            moviesFragment = new MoviesFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, moviesFragment, MOVIES_FRAGMENT_TAG)
+                    .commit();
         }
     }
 }
