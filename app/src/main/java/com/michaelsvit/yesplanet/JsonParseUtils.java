@@ -92,6 +92,7 @@ public abstract class JsonParseUtils {
                         if (index != null) {
                             Movie movie = movies.get(index);
                             movie.addCategory(movieCategory);
+                            Cinema.setCategoryNotEmpty(movieCategory);
                         }
                     }
                 }

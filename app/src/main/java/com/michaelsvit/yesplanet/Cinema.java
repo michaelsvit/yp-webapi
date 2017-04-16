@@ -1,7 +1,9 @@
 package com.michaelsvit.yesplanet;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Michael on 4/9/2017.
@@ -14,6 +16,13 @@ public class Cinema {
     private final static String LOG_TAG = Cinema.class.getSimpleName();
 
     private static List<Movie> movies = new ArrayList<>();
+    private static Map<Movie.Category, Boolean> isCategoryEmpty = new EnumMap<>(Movie.Category.class);
+    static {
+        // Initialize all categories to be empty
+        for (Movie.Category category : Movie.Category.values()) {
+            isCategoryEmpty.put(category, true);
+        }
+    }
 
     // Prevent instantiation by declaring private.
     private Cinema() {
@@ -42,5 +51,13 @@ public class Cinema {
 
     public static Movie getMovie(int position) {
         return movies.get(position);
+    }
+
+    public static void setCategoryNotEmpty(Movie.Category category) {
+        isCategoryEmpty.put(category, false);
+    }
+
+    public static boolean isCategoryEmpty(Movie.Category category) {
+        return isCategoryEmpty.get(category);
     }
 }

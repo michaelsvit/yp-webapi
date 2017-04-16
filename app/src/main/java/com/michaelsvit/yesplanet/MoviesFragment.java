@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
+
+import static com.michaelsvit.yesplanet.MovieDetailsActivity.LOG_TAG;
 
 
 /**
@@ -38,6 +41,11 @@ public class MoviesFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_fragment_movies, menu);
+        for (Movie.Category category : Movie.Category.values()) {
+            if (Cinema.isCategoryEmpty(category)) {
+                menu.findItem(getCategoryMenuResId(category)).setVisible(false);
+            }
+        }
     }
 
     @Override
@@ -83,6 +91,34 @@ public class MoviesFragment extends Fragment {
         return true;
     }
 
+    private int getCategoryMenuResId(Movie.Category category) {
+        switch (category) {
+            case DRAMA:
+                return R.id.action_filter_drama;
+            case THRILLER:
+                return R.id.action_filter_thriller;
+            case ACTION:
+                return R.id.action_filter_action;
+            case COMEDY:
+                return R.id.action_filter_comedy;
+            case KIDS:
+                return R.id.action_filter_kids;
+            case KIDS_SHOW:
+                return R.id.action_filter_kids_show;
+            case KIDS_CLUB:
+                return R.id.action_filter_kids_club;
+            case MORNING_EVENTS:
+                return R.id.action_filter_morning_events;
+            case OPERA:
+                return R.id.action_filter_opera;
+            case CLASSIC:
+                return R.id.action_filter_classic;
+            default:
+                Log.e(LOG_TAG, "Unrecognized category: " + category);
+                return -1;
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -97,11 +133,9 @@ public class MoviesFragment extends Fragment {
         adapter = new MoviesAdapter(movies, getActivity());
         recyclerView.setAdapter(adapter);
         filter = "";
+        adapter.getFilter().filter(filter);
 
         return rootView;
     }
 
-    public void notifyDataSetChanged() {
-        adapter.getFilter().filter(filter);
-    }
 }
