@@ -148,7 +148,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
                 if (!response.isSuccessful()) {
                     throw new IOException();
                 }
-                final String synopsisString = response.body().string();
+                final String synopsisString = response.body().string().trim();
                 runOnUiThread(new Runnable() {
                     public void run() {
                         synopsis.setText(synopsisString);
