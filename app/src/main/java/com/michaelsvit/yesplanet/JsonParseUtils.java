@@ -137,6 +137,7 @@ public abstract class JsonParseUtils {
             movies = new ArrayList<>();
             Map<String, Integer> idToIndexMap = new HashMap<>();
 
+            final String ALT_COUNT_KEY = "ac";
             final String SUB_LANG_KEY = "sub";
             final String IS_3D_KEY = "is3d";
             final String ACTORS_KEY = "acts";
@@ -153,8 +154,23 @@ public abstract class JsonParseUtils {
 
             try {
                 JSONArray moviesArray = new JSONArray(json);
-                for (int i = 0; i < moviesArray.length(); i++) {
-                    JSONObject movie = moviesArray.getJSONObject(i);
+                int savedIndex = 0;
+                for (int jsonIndex = 0; jsonIndex < moviesArray.length(); jsonIndex++) {
+                    JSONObject movie = moviesArray.getJSONObject(jsonIndex);
+
+                    String englishTitle = safeGetString(ENGLISH_TITLE_KEY, movie);
+
+                    String id;
+                    if (movie.has(ID_KEY)) {
+                        id = movie.getString(ID_KEY);
+                        // If a single movie has a few entries, skip all but the first one
+                        if (idToIndexMap.get(id) != null) {
+                            continue;
+                        }
+                    } else {
+                        Log.e(LOG_TAG, "Movie with name: " + englishTitle + " has no ID");
+                        continue;
+                    }
 
                     String subtitlesLanguage = getSubtitlesLanguage(SUB_LANG_KEY, movie);
 
@@ -171,17 +187,7 @@ public abstract class JsonParseUtils {
 
                     String hebrewTitle = safeGetString(HEBREW_TITLE_KEY, movie);
 
-                    String englishTitle = safeGetString(ENGLISH_TITLE_KEY, movie);
-
                     String country = safeGetString(COUNTRY_KEY, movie);
-
-                    String id;
-                    if (movie.has(ID_KEY)) {
-                        id = movie.getString(ID_KEY);
-                    } else {
-                        Log.e(LOG_TAG, "Movie with name: " + englishTitle + " has no ID");
-                        continue;
-                    }
 
                     String director = safeGetString(DIRECTOR_KEY, movie);
 
@@ -189,7 +195,7 @@ public abstract class JsonParseUtils {
 
                     String youtubeTrailerId = safeGetYoutubeTrailerId(YOUTUBE_TRAILER_ID, movie);
 
-                    movies.add(i, new Movie(
+                    movies.add(savedIndex, new Movie(
                             subtitlesLanguage,
                             is3d,
                             actors,
@@ -203,7 +209,8 @@ public abstract class JsonParseUtils {
                             id,
                             ageRating,
                             youtubeTrailerId));
-                    idToIndexMap.put(id, i);
+                    idToIndexMap.put(id, savedIndex);
+                    savedIndex++;
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
