@@ -1,3 +1,4 @@
+/*
 package com.michaelsvit.yesplanet;
 
 import android.support.test.runner.AndroidJUnit4;
@@ -9,11 +10,13 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
+*/
 /**
  * Created by Michael on 4/9/2017.
  *
  * Instrumented tests for parsing JSON data.
- */
+ *//*
+
 @RunWith(AndroidJUnit4.class)
 public class ParseDataAsyncInstrumentedTest {
 
@@ -64,4 +67,4 @@ public class ParseDataAsyncInstrumentedTest {
     }
 
 
-}
+}*/

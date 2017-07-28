@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="C:\Users\Michael\.gradle\caches\modules-2\files-2.1\com.github.bumptech.glide\glide\3.7.0\9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4\glide-3.7.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4">
+        <dex dex="D:\Dropbox\Programming\GitRepos\YesPlanet\app\build\intermediates\pre-dexed\debug\glide-3.7.0_039f666fca00baf8ff1581cf6d7d011563f74f33.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Michael\.android\build-cache\6d854d000857a30d624e691bb55556afbee4b9c7\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="914f5d3e3ace66080e59613708f06d129a222e25">
+        <dex dex="D:\Dropbox\Programming\GitRepos\YesPlanet\app\build\intermediates\pre-dexed\debug\classes_5e0c4c5c16dfdb79dde9c4cfb83a9b2cb039e46b.jar" />
+    </item>
+
+</items>

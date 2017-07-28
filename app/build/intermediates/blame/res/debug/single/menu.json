@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "D:\\Dropbox\\Programming\\GitRepos\\YesPlanet\\app\\build\\intermediates\\res\\merged\\debug\\menu\\menu_movie_details.xml",
+        "source": "D:\\Dropbox\\Programming\\GitRepos\\YesPlanet\\app\\src\\main\\res\\menu\\menu_movie_details.xml"
+    },
+    {
+        "merged": "D:\\Dropbox\\Programming\\GitRepos\\YesPlanet\\app\\build\\intermediates\\res\\merged\\debug\\menu\\main.xml",
+        "source": "D:\\Dropbox\\Programming\\GitRepos\\YesPlanet\\app\\src\\main\\res\\menu\\main.xml"
+    },
+    {
+        "merged": "D:\\Dropbox\\Programming\\GitRepos\\YesPlanet\\app\\build\\intermediates\\res\\merged\\debug\\menu\\menu_fragment_movies.xml",
+        "source": "D:\\Dropbox\\Programming\\GitRepos\\YesPlanet\\app\\src\\main\\res\\menu\\menu_fragment_movies.xml"
+    },
+    {
+        "merged": "D:\\Dropbox\\Programming\\GitRepos\\YesPlanet\\app\\build\\intermediates\\res\\merged\\debug\\menu\\activity_main_drawer.xml",
+        "source": "D:\\Dropbox\\Programming\\GitRepos\\YesPlanet\\app\\src\\main\\res\\menu\\activity_main_drawer.xml"
+    }
+]
